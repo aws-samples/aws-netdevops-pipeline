@@ -10,10 +10,15 @@ The purpose of this repository is to demo how can we deploy a NetDevOps Multi ac
 
 To deploy the infrastructure, following are the prerequisites required:
 
-1. An AWS Identity and Management [IAM](https://docs.aws.amazon.com/mediapackage/latest/ug/setting-up-create-iam-user.html) account  part of [AWS Organizations](https://aws.amazon.com/organizations/) with administrator privileges for the services used in this solution.
-2. Enable Trusted access for [AWS Resource Access Manager (RAM)](https://aws.amazon.com/ram/) . Review the [steps](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ram.html) to enable it.
-3. Enable [Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html).
-4. Configure AWS credentials of the Hub account on the terminal and [Install](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) AWS CDK Toolkit. If you’re not familiar with the steps review the [CDK workshop](https://cdkworkshop.com/15-prerequisites/500-toolkit.html) for the setup.
+1. Five [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) accounts as part of [AWS Organizations](https://aws.amazon.com/organizations/) with administrator privileges for the services used in this solution.
+    a. Development Account – Used to provision the NetDevOps Pipeline
+    b. Dev Hub Account – NetDevOps Pipeline provisions the Dev Hub Workload
+    c. Dev Spoke Account – NetDevOps Pipeline provisions the Dev Spoke Workload
+    d. Prod Hub Account – NetDevOps Pipeline provisions the Prod Hub Workload
+    e. Prod Spoke Account – NetDevOps Pipeline provisions the Prod Spoke Workload
+2. Turn on trusted access for [AWS Resource Access Manager](https://aws.amazon.com/ram/) (AWS RAM) in the Organizations Management Account. Review these steps to activate it.
+3. Turn on the Delegated administrator account for [Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Organizations Management Account. Review these [steps](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-securityhub.html#integrate-enable-da-securityhub) to activate it.
+4. Configure the AWS credentials of the Development account in the terminal. [Instal](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) the AWS CDK Toolkit. If you’re unfamiliar with the steps, then review the AWS [CDK workshop](https://cdkworkshop.com/15-prerequisites/500-toolkit.html) for help
 
 ## Deployment Steps
 
@@ -51,6 +56,9 @@ cdk deploy -c infra_type=NetDevopsFoundation --require-approval=never
 git remote add codecommit https://git-codecommit.<Development account Region>.amazonaws.com/v1/repos/network-devops-repo
 ```
 
+***NOTE:*** The above steps requires setting up Https git credentials. Review the [steps](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html) to setup git credentials. Due to operational reason if you’re unable to setup git credentials then follow the
+steps mentioned [here](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-git-remote-codecommit.html#setting-up-git-remote-codecommit-prereq) for git-remote-codecommit setup.
+
 2. Add the code to the repository by running the following commands
 
 ```
@@ -59,7 +67,8 @@ git commit -m "Initial NetDevops pipeline repo commit"
 git push --set-upstream codecommit main
 ```
 
-3. Bootstrap the hub account and spoke account in development and production environment by following the below steps
+3. Bootstrap the hub account and spoke account in development and production environment by following the below steps or, alternatively the accounts can bootstrap the accounts using StackSet, following the steps
+highlighted in this [post](https://aws.amazon.com/blogs/mt/bootstrapping-multiple-aws-accounts-for-aws-cdk-using-cloudformation-stacksets/).
 
 ```
 Hub Account [Development Environment] 
@@ -99,12 +108,12 @@ Note : The deployment takes around 10-15 minutes due the AWS CodePipelines and C
 
 To avoid unnecessary charges, delete the resources created during the deployment of NetDevOps pipeline and testing. To perform a cleanup of the resources, perform the following steps in the sequential order defined here :
 
-1. The stacks created by the CodePipeline should deleted manually from CloudFormation console. Hence, identify the appropriate stacks, and delete them in hub and spoke accounts in both primary and DR region for production and development environment.
+1. The stacks created by the CodePipeline should deleted manually from CloudFormation console. Hence, identify the appropriate stacks, and delete them in hub and spoke accounts in both primary and DR region for production and development environment. Also delete the s3 bucket.
 2. Destroy the NetDevops Foundations and NetDevops Pipeline Applications run the below commands
 
 ```
-cdk destroy --infra_type NetDevopsPreReq
 cdk destroy --all
+cdk destroy -c infra_type=NetDevopsFoundation
 ```
 
 ## Conclusion

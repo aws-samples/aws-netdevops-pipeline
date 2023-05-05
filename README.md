@@ -18,7 +18,7 @@ To deploy the infrastructure, following are the prerequisites required:
     e. Prod Spoke Account – NetDevOps Pipeline provisions the Prod Spoke Workload
 2. Turn on trusted access for [AWS Resource Access Manager](https://aws.amazon.com/ram/) (AWS RAM) in the Organizations Management Account. Review these steps to activate it.
 3. Turn on the Delegated administrator account for [Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Organizations Management Account. Review these [steps](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-securityhub.html#integrate-enable-da-securityhub) to activate it.
-4. Configure the AWS credentials of the Development account in the terminal. [Instal](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) the AWS CDK Toolkit. If you’re unfamiliar with the steps, then review the AWS [CDK workshop](https://cdkworkshop.com/15-prerequisites/500-toolkit.html) for help
+4. Configure the AWS credentials of the Development account in the terminal. [Install](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) the AWS CDK Toolkit. If you’re unfamiliar with the steps, then review the AWS [CDK workshop](https://cdkworkshop.com/15-prerequisites/500-toolkit.html) for help
 
 ## Deployment Steps
 

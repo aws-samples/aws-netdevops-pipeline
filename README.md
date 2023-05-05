@@ -116,6 +116,3 @@ cdk destroy --all
 cdk destroy -c infra_type=NetDevopsFoundation
 ```
 
-## Conclusion
-
-NetDevOps lets you deliver applications and services at high velocity. This means faster changes and a reduced network delivery lifecycle. In this blog, we demonstrated how to implement NetDevOps in practice leveraging CDK. We also showed how you can include security and compliance requirements as part of your network CI/CD. We removed the undifferentiated heavy lifting for setting up CI/CD pipeline by providing templates to provision the infrastructure required. We hope that you’ve found this post informative and we look forward to hearing how you use this new feature!
